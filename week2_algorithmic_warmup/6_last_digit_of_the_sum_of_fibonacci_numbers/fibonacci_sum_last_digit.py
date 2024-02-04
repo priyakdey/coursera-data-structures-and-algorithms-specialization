@@ -42,6 +42,9 @@ def fibonacci_sum(n: int) -> int:
         return n
 
     fibonacci_n_plus_2_last_digit = fibonacci_last_digit(n + 2)
+    if fibonacci_n_plus_2_last_digit - 1 < 0:
+        # ensures digit is always positive
+        return fibonacci_n_plus_2_last_digit - 1 + 10
     return fibonacci_n_plus_2_last_digit - 1
 
 

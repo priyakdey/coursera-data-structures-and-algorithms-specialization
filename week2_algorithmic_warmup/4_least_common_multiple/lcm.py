@@ -10,28 +10,30 @@ Output: The least common mul- tiple of a and b.
 
 
 def gcd(a: int, b: int) -> int:
-    if a < b:
-        a, b = b, a
+    if a == 0:
+        return b
+    if b == 0:
+        return a
 
-    gcd = 1
-    while a & 1 == 0 and b & 1 == 0:
-        gcd = gcd << 1
-        a = a >> 1
-        b = b >> 1
+    # Find power of two in common
+    shift = 0
+    while ((a | b) & 1) == 0:
+        a >>= 1
+        b >>= 1
+        shift += 1
 
-    while a & 1 == 0:
-        a = a >> 1
-    while b & 1 == 0:
-        b = b
+    # Ensure a is odd
+    while (a & 1) == 0:
+        a >>= 1
 
     while b != 0:
-        a = a - b
-        while a & 1 == 0 and a > 0:
-            a = a >> 1
+        while (b & 1) == 0:
+            b >>= 1
+        # a and b are both odd, swap to ensure a >= b
         if a < b:
             a, b = b, a
-
-    return a * gcd
+        a = a - b
+    return a << shift
 
 
 def lcm(a: int, b: int) -> int:

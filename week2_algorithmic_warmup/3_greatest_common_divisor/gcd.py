@@ -32,6 +32,33 @@ mod with shifting and subtraction operation
 
 
 def gcd(a: int, b: int) -> int:
+    if a == 0:
+        return b
+    if b == 0:
+        return a
+
+    # Find power of two in common
+    shift = 0
+    while ((a | b) & 1) == 0:
+        a >>= 1
+        b >>= 1
+        shift += 1
+
+    # Ensure a is odd
+    while (a & 1) == 0:
+        a >>= 1
+
+    while b != 0:
+        while (b & 1) == 0:
+            b >>= 1
+        # a and b are both odd, swap to ensure a >= b
+        if a < b:
+            a, b = b, a
+        a = a - b
+    return a << shift
+
+
+def _gcd(a: int, b: int) -> int:
     # always make sure a is larger value and b is the lesser value
     if a < b:
         a, b = b, a
@@ -88,6 +115,10 @@ def test():
     result = gcd(28851538, 1183019)
     print(result)
     assert 17657 == result
+
+    result = gcd(14159572, 63967072)
+    print(result)
+    assert 4 == result
 
 
 if __name__ == "__main__":
